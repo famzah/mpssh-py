@@ -1,0 +1,32 @@
+#summary Sample output of "mpssh.py".
+#labels Featured
+
+{{{
+$ mpssh.py -u root -f testhosts.txt 'hostname -a'
+
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+(c) 2013 Ivan Zahariev <famzah>
+
+  [*] read (9) hosts from the list
+  [*] executing "hostname -a" as user "root"
+  [*] spawning 9 parallel SSH sessions
+
+test3.mpssh  -> localhost archlinux localhost archlinux 
+test6.mpssh  -> gentoo localhost 
+test1.mpssh  -> debian
+test7.mpssh  -> opensuse
+test2.mpssh  -> ubuntu
+test9.mpssh  -> slackware 
+test4.mpssh  -> localhost.localdomain localhost
+test8.mpssh  => hostname: Unknown host
+test50.mpssh => hostname: Unknown host
+test50.mpssh =: SSH exit code 1
+test8.mpssh  =: SSH exit code 1
+
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 7/2/0).
+}}}
+
+When ran from an interactive terminal/console, the separators are colored:
+  * "->" is in green color and denotes the STDOUT output
+  * "=>" is in red color and denotes the STDERR output
+  * "=:" is in green or red color and denotes an exit code 0 or non-zero respectively, as well as an error in the execution of "ssh"
