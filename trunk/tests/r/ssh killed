@@ -1,0 +1,15 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 6 hosts processed (ok/non-ok/ssh-failed = 0/0/6).
+  [*] executing "command1 arg1 arg2" as user "tuser"
+host1    =: SSH killed with signal 9
+host2    =: SSH killed with signal 9
+machine1 =: SSH killed with signal 9
+machine2 =: SSH killed with signal 9
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (6) hosts from the list
+  [*] spawning 6 parallel SSH sessions
+test1    =: SSH killed with signal 9
+test2    =: SSH killed with signal 9

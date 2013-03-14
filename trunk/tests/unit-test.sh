@@ -35,6 +35,7 @@ utest 'echo only header 2 procs' '-S /bin/echo -p 2 -u tuser -f ./fakehosts.txt'
 utest 'exec failed' '-S / --noheader -f ./fakehosts.txt' "$CMD" 'sort'
 utest 'echo sshopt default' '--verbose -S /bin/echo -u tuser -f ./fakehosts.txt' "$CMD" 'grep "SSH options"'
 utest 'echo sshopt custom'  '--verbose -S /bin/echo -u tuser -f ./fakehosts.txt' "$CMD" 'grep "SSH options"' 'o ConnectTimeout=3'
+utest 'ssh killed' '-S ./die.sh -u tuser -f ./fakehosts.txt' "$CMD" 'sort'
 
 CMD='[ -e /etc/mpssh-ok ] && { echo test skipped; exit 0; } ; ulimit -t 1 && while [ 1 ]; do let COUNTER=COUNTER+1; done;'
 utest 'killed due to cpu limit' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
