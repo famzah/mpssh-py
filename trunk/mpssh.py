@@ -23,6 +23,10 @@ import multiprocessing.sharedctypes
 settings = None
 
 def usage_and_parse_argv():
+	#
+	# NOTE: If you change anything here, update the UsageHelp Wiki page.
+	#
+
 	parser = argparse.ArgumentParser(
 		description='Executes an SSH command simulatenously on many hosts.',
 		formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -52,7 +56,7 @@ def usage_and_parse_argv():
 	parser.add_argument('-O', '--sshopt',
 		help='additional options to pass to SSH; may be specified many times; skip the leading dash',
 		default=default_ssh_opt, required=False, type=str, action='append')
-	parser.add_argument('-H', '--noheader', help='don\'t show the header info',
+	parser.add_argument('-H', '--noheader', help='do not show the header info',
 		action='store_true', required=False)
 	parser.add_argument('-v', '--verbose', help='be more verbose',
 		action='store_true', required=False)
