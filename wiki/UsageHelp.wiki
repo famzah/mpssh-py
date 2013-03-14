@@ -1,0 +1,40 @@
+#summary Usage help showing all command-line arguments.
+#labels Featured
+
+{{{
+usage: mpssh.py [-h] -f FILE [-d MSEC] [-e] [-E] [-p NPROC] [-u USER]
+                [-l CHARS] [-S SSHBIN] [-O SSHOPT] [-H] [-v] [-D] [-V]
+                command
+
+Executes an SSH command simulatenously on many hosts.
+
+positional arguments:
+  command               SSH command to mass-execute
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  name of the file with the list of hosts (default:
+                        None)
+  -d MSEC, --delay MSEC
+                        delay between each SSH fork (default: 50)
+  -e, --zeroexit        print also zero remote command exit codes (default:
+                        False)
+  -E, --ignexit         ignore non-zero remote command exit codes (default:
+                        False)
+  -p NPROC, --procs NPROC
+                        number of parallel SSH processes (default: 100)
+  -u USER, --user USER  force SSH login as this username (default: use current
+                        user)
+  -l CHARS, --maxlen CHARS
+                        maximum length of output lines (default: 80)
+  -S SSHBIN, --sshbin SSHBIN
+                        SSH binary path (default: /usr/bin/ssh)
+  -O SSHOPT, --sshopt SSHOPT
+                        additional options to pass to SSH; may be specified
+                        many times; skip the leading dash (default: ['o
+                        NumberOfPasswordPrompts=0'])
+  -H, --noheader        do not show the header info (default: False)
+  -v, --verbose         be more verbose (default: False)
+  -D, --debug           show debug traces (default: False)
+  -V, --version         show program's version number and exit
+}}}
