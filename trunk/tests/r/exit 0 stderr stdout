@@ -1,0 +1,36 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 9/0/0).
+  [*] executing "[ -e /etc/mpssh-ok ] && { echo skipping2 ; exit 0; } ; echo -e "some err\nerr-string v2" 1>&2; echo -e "sout-some\ngood-sout-text"; exit 0" as user "root"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (9) hosts from the list
+  [*] spawning 9 parallel SSH sessions
+test1.mpssh  -> skipping2
+test2.mpssh  => err-string v2
+test2.mpssh  -> good-sout-text
+test2.mpssh  => some err
+test2.mpssh  -> sout-some
+test3.mpssh  => err-string v2
+test3.mpssh  -> good-sout-text
+test3.mpssh  => some err
+test3.mpssh  -> sout-some
+test4.mpssh  -> skipping2
+test50.mpssh => err-string v2
+test50.mpssh -> good-sout-text
+test50.mpssh => some err
+test50.mpssh -> sout-some
+test6.mpssh  => err-string v2
+test6.mpssh  -> good-sout-text
+test6.mpssh  => some err
+test6.mpssh  -> sout-some
+test7.mpssh  -> skipping2
+test8.mpssh  => err-string v2
+test8.mpssh  -> good-sout-text
+test8.mpssh  => some err
+test8.mpssh  -> sout-some
+test9.mpssh  => err-string v2
+test9.mpssh  -> good-sout-text
+test9.mpssh  => some err
+test9.mpssh  -> sout-some

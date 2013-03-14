@@ -1,0 +1,18 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 3/0/6).
+  [*] executing "[ -e /etc/mpssh-ok ] && { echo test skipped; exit 0; } ; ulimit -t 1 && while [ 1 ]; do let COUNTER=COUNTER+1; done;" as user "root"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (9) hosts from the list
+  [*] spawning 9 parallel SSH sessions
+test1.mpssh  -> test skipped
+test2.mpssh  =: SSH exit code 255 (possible SSH failure)
+test3.mpssh  =: SSH exit code 255 (possible SSH failure)
+test4.mpssh  -> test skipped
+test50.mpssh =: SSH exit code 255 (possible SSH failure)
+test6.mpssh  =: SSH exit code 255 (possible SSH failure)
+test7.mpssh  -> test skipped
+test8.mpssh  =: SSH exit code 255 (possible SSH failure)
+test9.mpssh  =: SSH exit code 255 (possible SSH failure)

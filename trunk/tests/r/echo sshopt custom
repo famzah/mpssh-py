@@ -1,0 +1,1 @@
+  [*] SSH options: ['-o NumberOfPasswordPrompts=0', '-o ConnectTimeout=3']

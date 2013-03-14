@@ -1,0 +1,31 @@
+#
+# Sample hosts file.
+#
+# Format:
+#   (1) Comments start with "#".
+#   (2) Empty lines are ignored too.
+#   (3) All other lines are considered hosts.
+#
+# If you need to specify a custom port or username to log in with,
+# please add an entry in the "~/.ssh/config" file,
+# as explained by the man page of "ssh_config(5)".
+#
+# This gives you the flexibility to even have "virtual" hosts, like
+# "myhost-example" which can be defined in the following way in
+# "~/.ssh/config":
+#
+#   Host myhost-example
+#     User root
+#     Port 222
+#     Hostname 192.168.100.1
+#
+# Adding hosts this way has the benefit that you can also use them
+# with the standard "ssh" command, like "ssh user@myhost-example".
+#
+
+# standard hostnames
+server1.example.com
+192.168.100.102
+
+# virtual hostname, as explained in the example above
+myhost-example

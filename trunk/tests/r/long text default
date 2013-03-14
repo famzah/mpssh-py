@@ -1,0 +1,36 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 9/0/0).
+  [*] executing "perl -e "print \"x\"x200"" as user "root"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (9) hosts from the list
+  [*] spawning 9 parallel SSH sessions
+test1.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test1.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test1.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test2.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test2.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test2.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test3.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test3.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test3.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test4.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test4.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test4.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test50.mpssh -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test50.mpssh -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test50.mpssh -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test6.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test6.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test6.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test7.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test7.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test7.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test8.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test8.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test8.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test9.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test9.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+test9.mpssh  -> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

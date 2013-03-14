@@ -1,0 +1,18 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 3/6/0).
+  [*] executing "[ -e /etc/mpssh-ok ] && { exit 0; } ; sleep 1; exit 2" as user "root"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (9) hosts from the list
+  [*] spawning 9 parallel SSH sessions
+test1.mpssh  =: SSH exit code 0
+test2.mpssh  =: SSH exit code 2
+test3.mpssh  =: SSH exit code 2
+test4.mpssh  =: SSH exit code 0
+test50.mpssh =: SSH exit code 2
+test6.mpssh  =: SSH exit code 2
+test7.mpssh  =: SSH exit code 0
+test8.mpssh  =: SSH exit code 2
+test9.mpssh  =: SSH exit code 2

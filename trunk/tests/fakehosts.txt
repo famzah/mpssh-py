@@ -1,0 +1,6 @@
+host1
+host2
+machine1
+machine2
+test1
+test2
