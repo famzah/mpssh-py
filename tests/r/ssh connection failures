@@ -1,0 +1,13 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 2 hosts processed (ok/non-ok/ssh-failed = 0/0/2).
+  [*] executing "echo test" as user "root"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (2) hosts from the list
+refused.mpssh => ssh: connect to host xxx port 22: Connection refused
+refused.mpssh =: SSH exit code 255 (possible SSH failure)
+  [*] spawning 2 parallel SSH sessions
+timeout.mpssh => ssh: connect to host xxx port 22: Connection timed out
+timeout.mpssh =: SSH exit code 255 (possible SSH failure)

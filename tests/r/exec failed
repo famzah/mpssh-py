@@ -1,0 +1,6 @@
+host1    =: exec(/) error(13): Permission denied
+host2    =: exec(/) error(13): Permission denied
+machine1 =: exec(/) error(13): Permission denied
+machine2 =: exec(/) error(13): Permission denied
+test1    =: exec(/) error(13): Permission denied
+test2    =: exec(/) error(13): Permission denied

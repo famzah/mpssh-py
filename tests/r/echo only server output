@@ -1,0 +1,6 @@
+host1    -> -o NumberOfPasswordPrompts=0 tuser@host1 command1 arg1 arg2
+host2    -> -o NumberOfPasswordPrompts=0 tuser@host2 command1 arg1 arg2
+machine1 -> -o NumberOfPasswordPrompts=0 tuser@machine1 command1 arg1 arg2
+machine2 -> -o NumberOfPasswordPrompts=0 tuser@machine2 command1 arg1 arg2
+test1    -> -o NumberOfPasswordPrompts=0 tuser@test1 command1 arg1 arg2
+test2    -> -o NumberOfPasswordPrompts=0 tuser@test2 command1 arg1 arg2

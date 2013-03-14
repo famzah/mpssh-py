@@ -1,0 +1,24 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 3/6/0).
+  [*] executing "[ -e /etc/mpssh-ok ] && { echo skipping ; exit 0; } ; echo "some err string" 1>&2; exit 111" as user "root"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (9) hosts from the list
+  [*] spawning 9 parallel SSH sessions
+test1.mpssh  -> skipping
+test2.mpssh  => some err string
+test2.mpssh  =: SSH exit code 111
+test3.mpssh  => some err string
+test3.mpssh  =: SSH exit code 111
+test4.mpssh  -> skipping
+test50.mpssh => some err string
+test50.mpssh =: SSH exit code 111
+test6.mpssh  => some err string
+test6.mpssh  =: SSH exit code 111
+test7.mpssh  -> skipping
+test8.mpssh  => some err string
+test8.mpssh  =: SSH exit code 111
+test9.mpssh  => some err string
+test9.mpssh  =: SSH exit code 111

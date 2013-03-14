@@ -1,0 +1,27 @@
+
+
+
+(c) 2013 Ivan Zahariev <famzah>
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 0/0/9).
+  [*] executing "/bin/true" as user "nobody"
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+  [*] read (9) hosts from the list
+  [*] spawning 9 parallel SSH sessions
+test1.mpssh  => Permission denied xxx
+test1.mpssh  =: SSH exit code 255 (possible SSH failure)
+test2.mpssh  => Permission denied xxx
+test2.mpssh  =: SSH exit code 255 (possible SSH failure)
+test3.mpssh  => Permission denied xxx
+test3.mpssh  =: SSH exit code 255 (possible SSH failure)
+test4.mpssh  => Permission denied xxx
+test4.mpssh  =: SSH exit code 255 (possible SSH failure)
+test50.mpssh => Permission denied xxx
+test50.mpssh =: SSH exit code 255 (possible SSH failure)
+test6.mpssh  => Permission denied xxx
+test6.mpssh  =: SSH exit code 255 (possible SSH failure)
+test7.mpssh  => Permission denied xxx
+test7.mpssh  =: SSH exit code 255 (possible SSH failure)
+test8.mpssh  => Permission denied xxx
+test8.mpssh  =: SSH exit code 255 (possible SSH failure)
+test9.mpssh  => Permission denied xxx
+test9.mpssh  =: SSH exit code 255 (possible SSH failure)

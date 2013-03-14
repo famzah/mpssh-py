@@ -1,0 +1,9 @@
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+(c) 2013 Ivan Zahariev <famzah>
+
+  [*] read (9) hosts from the list
+  [*] executing "/bin/true    " as user "root"
+  [*] spawning 9 parallel SSH sessions
+
+
+  Done. 9 hosts processed (ok/non-ok/ssh-failed = 9/0/0).

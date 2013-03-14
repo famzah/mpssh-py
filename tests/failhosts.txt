@@ -1,0 +1,9 @@
+# Sample "~/.ssh/config" entries:
+#Host refused.mpssh
+#	Hostname 127.0.0.1
+#Host timeout.mpssh
+#	Hostname 8.8.8.8
+
+# hosts list follow
+refused.mpssh
+timeout.mpssh
