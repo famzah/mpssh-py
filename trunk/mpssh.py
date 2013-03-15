@@ -312,6 +312,11 @@ if __name__ == '__main__':
 		))
 		p.start()
 		procs_list.append(p)
+		if processed_hosts.value == host_count:
+			# while we manage to fork() enough workers
+			# the already born workers did the whole job,
+			# so exit immediately
+			break
 	
 	while len(procs_list): # reap workers
 		for p in procs_list:
