@@ -127,13 +127,21 @@ def print_host_output(max_host_len, host, separator, text):
 		for short_line in split_len(line, settings.maxlen):
 			print "%-*s %s %s" % (max_host_len, host, separator, short_line)
 
+def sleep_sigsafe(t): # a sleep() safe to signal interruption; if we got interrupted and slept less, we'll sleep again
+	want_t = time.time() + float(t)
+	while True:
+		diff = want_t - time.time()
+		if diff <= 0.0:
+			break
+		time.sleep(diff)
+
 def worker(input, max_host_len, counter_lock, processed_hosts, zero_ec_hosts, nonzero_ec_hosts, failed_ssh_hosts, got_sigint):
 	# http://stackoverflow.com/questions/1112343/how-do-i-capture-sigint-in-python
 	def signal_handler(signal, frame):
 		for i in range(10): # wait a bit for the parent to update the flag
 			if got_sigint.value:
 				break
-			time.sleep(0.1)
+			sleep_sigsafe(0.1)
 		if not got_sigint.value: # did the parent got SIGINT too? if not -> bail out verbosely
 			sys.stderr.write("\nERROR: Child: Terminated by CTRL+C!\n\n")
 		sys.exit(1) # by default: exit silently => it won't be nice to see hundreds of errors by every worker
@@ -143,7 +151,7 @@ def worker(input, max_host_len, counter_lock, processed_hosts, zero_ec_hosts, no
 		debug(2, 'worker', 'Begin processing (host: %s)' % host)
 		with counter_lock:
 			processed_hosts.value += 1
-		time.sleep(settings.delay/1000)
+		sleep_sigsafe(float(settings.delay)/float(1000))
 
 		cmd = []
 		cmd.append(settings.sshbin)
@@ -187,7 +195,7 @@ def worker(input, max_host_len, counter_lock, processed_hosts, zero_ec_hosts, no
 			if p.returncode is None: # child is still working
 				# in theory, we should have slept enough in read_nb()'s select()
 				# but in practice select() immediately returns if we have EOF
-				time.sleep(0.2)
+				sleep_sigsafe(0.2)
 				continue
 
 			if (p.returncode != 0):
@@ -234,7 +242,7 @@ if __name__ == '__main__':
 	def signal_handler(signal, frame):
 		got_sigint.value = 1
 		sys.stderr.write("\nERROR: Terminated by CTRL+C! Cleaning up, wait a few seconds.\n\n")
-		time.sleep(3) # wait a bit for the children to terminate too
+		sleep_sigsafe(3) # wait a bit for the children to terminate too
 		sys.exit(1)
 	signal.signal(signal.SIGINT, signal_handler)
 
@@ -297,7 +305,7 @@ if __name__ == '__main__':
 
 	procs_list = []
 	for i in range(settings.procs):
-		time.sleep(settings.delay/1000)
+		sleep_sigsafe(float(settings.delay)/float(1000))
 		p = Process(target=worker, args=(
 			host_queue, max_host_len, counter_lock, processed_hosts,
 			zero_ec_hosts, nonzero_ec_hosts, failed_ssh_hosts, got_sigint
@@ -311,7 +319,7 @@ if __name__ == '__main__':
 				continue
 			p.join()
 			procs_list.remove(p)
-		time.sleep(0.2)
+		sleep_sigsafe(0.2)
 
 	if not settings.noheader:
 		print ''
