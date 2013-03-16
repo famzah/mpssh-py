@@ -290,9 +290,6 @@ if __name__ == '__main__':
 	if not settings.noheader:
 		print ''
 
-	for i in range(settings.procs):
-		host_queue.put('*STOP*')
-
 	# http://stackoverflow.com/questions/1233222/python-multiprocessing-easy-way-to-implement-a-simple-counter
 	counter_lock = Lock()
 
@@ -306,6 +303,7 @@ if __name__ == '__main__':
 	procs_list = []
 	for i in range(settings.procs):
 		sleep_sigsafe(float(settings.delay)/float(1000))
+		host_queue.put('*STOP*') # enqueue a marker which terminates the child at the end
 		p = Process(target=worker, args=(
 			host_queue, max_host_len, counter_lock, processed_hosts,
 			zero_ec_hosts, nonzero_ec_hosts, failed_ssh_hosts, got_sigint
