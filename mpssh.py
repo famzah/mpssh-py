@@ -314,6 +314,7 @@ if __name__ == '__main__':
 		))
 		p.start()
 		procs_list.append(p)
+		debug(1, 'main', 'Forked PID %d' % p.pid)
 		if processed_hosts.value == host_count:
 			# while we manage to fork() enough workers
 			# the already born workers did the whole job,
