@@ -74,7 +74,11 @@ def debug(level, sysname, message, pid=None):
 	if pid is None:
 		pid=os.getpid()
 	now = datetime.datetime.now()
-	print "%s [%s %5d] %s" % (now.strftime('%Y-%m-%d %H:%M:%S'), sysname, pid, message)
+	dts = "%04d-%02d-%02d %02d:%02d:%02d.%03d" % (
+		now.year, now.month, now.day, now.hour, now.minute, now.second, now.microsecond/float(1000)
+	)
+	print "%s [%s %5d] %s" % (dts, sysname, pid, message)
+	sys.stdout.flush() # or else messages get messed up when printing by multiple threads simultaneously
 
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python/377028#377028
 def which(program, default_path = None):
