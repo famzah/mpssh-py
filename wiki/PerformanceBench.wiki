@@ -1,27 +1,95 @@
 #summary Performance benchmark compared to the original C implementation.
 
+<wiki:toc max_depth="2" />
+
+= Practical tests =
+
+All tests have been done three times, in order to ensure that there are no deviations in the results.
+
+== host list ==
+
+We are using a list of 438 real servers located in the USA, Hong Kong, Germany, and Bulgaria. The mass-command is initiated from a Bulgarian location.
+
+== mpssh in Python ==
+
+Here are the results:
+{{{
+$ time ./mpssh.py --delay 50 -p 500 -u root -f serverlist.txt 'uptime'
+
+MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+(c) 2013 Ivan Zahariev <famzah>
+
+  [*] read (438) hosts from the list
+  [*] executing "uptime" as user "root"
+  [*] spawning 438 parallel SSH sessions
+
+... lots of server output ...
+  
+  Done. 438 hosts processed (ok/non-ok/ssh-failed = 438/0/0).
+
+real    0m16.942s
+user    0m11.770s
+sys     0m5.070s
+}}}
+
+== mpssh in C ==
+
+Here are the results:
+{{{
+$ time ./mpssh.c -d 50 -p 500 -u root -f serverlist.txt 'uptime'
+
+MPSSH - Mass Parallel Ssh Ver.1.4-dev
+(c)2005-2012 Nikolay Denev <ndenev@gmail.com>
+
+  [*] read (438) hosts from the list
+  [*] executing "uptime" as user "root"
+  [*] spawning 438 parallel ssh sessions
+
+... lots of server output ...
+  
+  Done. 438 hosts processed.
+
+real    0m27.457s
+user    0m9.720s
+sys     0m2.630s
+}}}
+
+== Memory usage ==
+
+We ran "sleep 300" on all the 438 hosts, so that we can measure the memory pressure on the initiator machine. The C implementation consumed 350 MB, while the Python one used twice as much - 766 MB. The main difference here is that MPSSH.py uses a different fork mechanism which creates one more additional Python process for every "ssh" session, which seems to use about 1 MB additional memory per host.
+
+== Conclusion ==
+
+The Python implementation consumes about 40% more CPU but achieves greater concurrency and finishes almost twice as fast.
+
+The better concurrency of MPSSH.py can be monitored by the following command which displays the forked MPSSH and SSH client processes, as well as the machine load:
+{{{
+watch -n 1 'ps axuww|grep mpssh|wc -l ; ps axuww|grep ssh|wc -l ; uptime'
+}}}
+
+It's worth mentioning that even with "--delay 500" MPSSH.py finishes pretty quickly and makes much less load on the initiator machine:
+{{{
+real    0m45.973s
+user    0m11.240s
+sys     0m4.160s
+}}}
+
+That's only valid if the remote machines exit almost immediately with a result. If you are mass-executing a command which takes much time to complete, a delay of 500 ms between each forks should make a huge difference, resulting in slower overall completion time. This is also valid for the C implementation, of course.
+
+Another interesting fact is that if we compare the times with no delay between the forks, which results in a huge load on the initiator machine, then the C implementation finishes in about 7.5 seconds while the Python one does it for 10.5 seconds.
+
+= Synthetic tests =
+
 We will run both implementations with a list of 500 hosts. Instead of executing "ssh", they will execute "/bin/echo" so that we measure only the fork() + processing overhead of the MPSSH implementations.
 
-= host list =
+== host list ==
 
 We generate the host list using the following command:
 {{{
 for i in {1..500} ; do echo "host$i" ; done > testlist
 }}}
 
-= mpssh in C =
-
-First we patch "mpssh" to execl() "/bin/echo". Here are the results:
-{{{
-$ time ./mpssh -f ./testlist 'command' | wc -l
-509
-
-real    0m0.211s
-user    0m0.064s
-sys     0m0.232s
-}}}
-
-= mpssh in Python =
+== mpssh in Python ==
 
 Here are the results:
 {{{
@@ -33,6 +101,18 @@ user    0m0.264s
 sys     0m1.292s
 }}}
 
-= Conclusion =
+== mpssh in C ==
 
-The Python implementation consumes about 5 times more CPU and finishes about 13 times slower. However, in absolute numbers we are speaking about 0.21 seconds vs. 2.78 seconds. The difference of about 2.57 seconds is negligible compared to the network latency that we would have connecting to 500 hosts simultaneously.
+First we patch "mpssh" to execl() "/bin/echo". Here are the results:
+{{{
+$ time ./mpssh -f ./testlist 'command' | wc -l
+509
+
+real    0m0.211s
+user    0m0.064s
+sys     0m0.232s
+}}}
+
+== Conclusion ==
+
+The Python implementation consumes about 5 times more CPU and finishes about 13 times slower. However, in absolute numbers we are speaking about 0.21 seconds vs. 2.78 seconds. The difference of about 2.57 seconds is negligible compared to the network latency that we would have connecting to 500 real hosts simultaneously.
