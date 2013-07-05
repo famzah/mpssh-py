@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python -u
+# NOTE: (-u) Force unbuffered STD(IN/OUT/ERR) streams
 
 #
 # This project is hosted at: https://code.google.com/p/mpssh-py/
@@ -21,6 +22,7 @@ from multiprocessing import Process, Queue, Lock
 import multiprocessing.sharedctypes
 
 settings = None
+print_lock = Lock()
 
 def usage_and_parse_argv():
 	#
@@ -127,9 +129,10 @@ def split_len(seq, length):
 	return [seq[i:i+length] for i in range(0, len(seq), length)]
 
 def print_host_output(max_host_len, host, separator, text):
-	for line in text.splitlines():
-		for short_line in split_len(line, settings.maxlen):
-			print "%-*s %s %s" % (max_host_len, host, separator, short_line)
+	with print_lock:
+		for line in text.splitlines():
+			for short_line in split_len(line, settings.maxlen):
+				print "%-*s %s %s" % (max_host_len, host, separator, short_line)
 
 def sleep_sigsafe(t): # a sleep() safe to signal interruption; if we got interrupted and slept less, we'll sleep again
 	want_t = time.time() + float(t)
