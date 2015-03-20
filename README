@@ -7,6 +7,7 @@ MPSSH.py executes the standard "ssh" binary from the OpenSSH package and therefo
 The behavior of MPSSH.py can be altered by various command-line options.
 
 MPSSH.py is a Python fork of the "mpssh" project, originally written in C. The motivation to rewrite it in Python is based on several factors:
+
 1. New versions of MPSSH.py will be fully backward-compatible and new features will be available only by enabling them with a command-line argument.
 2. Python is easier to maintain and practically not so slow when working with hundreds of hosts.
 3. Python is very portable across UNIX platforms.
