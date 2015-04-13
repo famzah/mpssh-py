@@ -2,7 +2,7 @@
 # NOTE: (-u) Force unbuffered STD(IN/OUT/ERR) streams
 
 #
-# This project is hosted at: https://code.google.com/p/mpssh-py/
+# This project is hosted at: https://github.com/famzah/mpssh-py
 # Please review the license and other info there.
 #
 
