@@ -2,6 +2,8 @@ MPSSH.py executes an SSH command simultaneously on many hosts. The list of hosts
 
 Executing the same command in parallel saves time when you work with hundreds of hosts. The output of both STDOUT and STDERR, as well as the exit code from each host are displayed in a convenient way on the console.
 
+You can see a sample output at the following page: https://github.com/famzah/mpssh-py/wiki/Sample-output-of-%22mpssh.py%22
+
 MPSSH.py executes the standard "ssh" binary from the OpenSSH package and therefore has no other dependencies. You can control the settings (username, port, hostname) for each host by creating an entry in the "~/.ssh/config" file, as explained by the man page of "ssh_config(5)". You can also define global SSH connect settings in this config file like Connection timeout value, allowed SSH protocol, etc. Alternatively you can specify them as a command-line argument too.
 
 The behavior of MPSSH.py can be altered by various command-line options.
