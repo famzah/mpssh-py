@@ -100,13 +100,12 @@ def which(program, default_path = None):
 
 	return default_path
 
-
 # http://stackoverflow.com/questions/375427/non-blocking-read-on-a-subprocess-pipe-in-python
 def read_nb(pipe): # XXX: Works only on UNIX (http://docs.python.org/2/library/select.html)
-	retVal = ''
+	retVal = b''
 	while (select.select([pipe], [], [], 0.2)[0] != []):
 		ch = pipe.read(1)
-		if ch == '':
+		if ch == b'':
 			break # we got EOF
 		retVal += ch
 	return retVal
@@ -132,7 +131,14 @@ def print_host_output(max_host_len, host, separator, text):
 	with print_lock:
 		for line in text.splitlines():
 			for short_line in split_len(line, settings.maxlen):
-				print("%-*s %s %s" % (max_host_len, host, separator, short_line))
+				print("%-*s %s " % (max_host_len, host, separator), end='')
+
+				if isinstance(short_line, bytes):
+				    sys.stdout.buffer.write(short_line) # let the terminal handle bad encoding...
+				else:
+				    sys.stdout.write(short_line)
+
+				sys.stdout.write('\n')
 
 def sleep_sigsafe(t): # a sleep() safe to signal interruption; if we got interrupted and slept less, we'll sleep again
 	want_t = time.time() + float(t)
