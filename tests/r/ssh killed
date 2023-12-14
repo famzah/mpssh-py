@@ -3,7 +3,7 @@
 
 (c) 2013 Ivan Zahariev <famzah>
   Done. 6 hosts processed (ok/non-ok/ssh-failed = 0/0/6).
-  [*] executing "command1 arg1 arg2" as user "tuser"
+  [*] executing "command1 arg1 arg2" as user "xxx"
 host1    =: SSH killed with signal 9
 host2    =: SSH killed with signal 9
 machine1 =: SSH killed with signal 9

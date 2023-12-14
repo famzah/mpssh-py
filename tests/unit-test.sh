@@ -30,7 +30,12 @@ function utest() {
 	else
 		"$MPSSH_BIN" $DEF_OPT $MPSSH_OPT "$SSH_CMD" | eval "$FILTER" > "$TMPF"
 	fi
+
+	# mask the username as "xxx"
+	perl -pi -e 's/^(  \[\*\] executing ".+" as user ")[^"]+("\s*)$/$1xxx$2/' "$TMPF"
+
 	diff -u "$TMPF" "r/$ID"
+
 	rm "$TMPF"
 }
 

@@ -3,7 +3,7 @@
 
 (c) 2013 Ivan Zahariev <famzah>
   Done. 9 hosts processed (ok/non-ok/ssh-failed = 9/0/0).
-  [*] executing "perl -e "print \"x\"x200"" as user "root"
+  [*] executing "perl -e "print \"x\"x200"" as user "xxx"
 MPSSH.py - Mass parallel SSH in Python (Version 1.0)
   [*] read (9) hosts from the list
   [*] spawning 9 parallel SSH sessions
