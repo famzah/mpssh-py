@@ -1,3 +1,19 @@
+#
+# Some of these hosts must have the file "mpssh-ok.flag" created in the $HOME directory.
+# Use the script "init-hosts.sh" to create this file where it is needed.
+#
+# Because the hostnames are statically predefined in the list files,
+# we need to define them in "~/.ssh/config", in order to associate them with real hosts.
+#
+# All executed test commands are safe. They do not alter the file-system or do anything dangerous.
+#
+# Sample "~/.ssh/config" entries:
+#
+#Host test1.mpssh
+#	Hostname my-server1.example.com
+#Host test2.mpssh
+#	Hostname my-server2.example.com
+
 test1.mpssh
 test2.mpssh
 test3.mpssh

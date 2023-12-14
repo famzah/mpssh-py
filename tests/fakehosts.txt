@@ -1,3 +1,8 @@
+#
+# These do not need to be real hosts.
+# A real connection is not made to those hosts.
+#
+
 host1
 host2
 machine1

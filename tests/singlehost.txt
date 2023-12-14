@@ -1,1 +1,8 @@
+#
+# This must be a host without an existing "mpssh-ok.flag" file in the $HOME directory.
+# If you prepared all hosts using "init-hosts.sh", you do not need to edit this file.
+#
+# See "testhosts.txt" for more details.
+#
+
 test2.mpssh
