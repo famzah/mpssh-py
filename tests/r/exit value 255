@@ -3,7 +3,7 @@
 
 (c) 2013 Ivan Zahariev <famzah>
   Done. 9 hosts processed (ok/non-ok/ssh-failed = 3/0/6).
-  [*] executing "[ -e /etc/mpssh-ok ] && { exit 0; } ; exit 255" as user "xxx"
+  [*] executing "[ -e mpssh-ok.flag ] && { exit 0; } ; exit 255" as user "xxx"
 MPSSH.py - Mass parallel SSH in Python (Version 1.0)
   [*] read (9) hosts from the list
   [*] spawning 9 parallel SSH sessions
