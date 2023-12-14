@@ -78,7 +78,7 @@ if [ $TDIFF -gt 5 ]; then
 fi
 
 CMD='/bin/true'
-utest 'bad login user' "-u nobody -f ./testhosts.txt" "$CMD" 'sort | perl -p -e "s/(Permission denied) .+/\$1 xxx/g"'
+utest 'bad login user' "-u nobody -f ./testhosts.txt" "$CMD" 'sort | perl -p -e "s/(?:nobody@[^:]+: )?(Permission denied) .+/\$1 xxx/g"'
 
 CMD='perl -e "print \"x\"x200"'
 utest 'long text default' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
