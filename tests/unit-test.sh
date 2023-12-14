@@ -3,7 +3,13 @@ set -u
 
 MPSSH_BIN='../mpssh.py'
 DEF_OPT='--delay 0'
-LUSER='root'
+
+[ "$#" -eq 1 ] || {
+	echo "Usage: $0 login-username" >&2
+	exit 1
+}
+
+LUSER="$1" ; shift
 
 function utest() {
 	local ID="$1"
@@ -11,9 +17,9 @@ function utest() {
 	local SSH_CMD="$3"
 	local FILTER="$4"
 
-	MPSSH_SSHOPT=''
+	local MPSSH_SSHOPT=''
 	if [ "$#" -eq 5 ]; then
-		local MPSSH_SSHOPT="$5" # or else we can't properly pass it
+		MPSSH_SSHOPT="$5" # or else we can't properly pass it
 	fi
 
 	local TMPF="$(tempfile)"
@@ -37,18 +43,18 @@ utest 'echo sshopt default' '--verbose -S /bin/echo -u tuser -f ./fakehosts.txt'
 utest 'echo sshopt custom'  '--verbose -S /bin/echo -u tuser -f ./fakehosts.txt' "$CMD" 'grep "SSH options"' 'o ConnectTimeout=3'
 utest 'ssh killed' '-S ./die.sh -u tuser -f ./fakehosts.txt' "$CMD" 'sort'
 
-CMD='[ -e /etc/mpssh-ok ] && { echo test skipped; exit 0; } ; ulimit -t 1 && while [ 1 ]; do let COUNTER=COUNTER+1; done;'
+CMD='[ -e mpssh-ok.flag ] && { echo test skipped; exit 0; } ; ulimit -t 1 && while [ 1 ]; do let COUNTER=COUNTER+1; done;'
 utest 'killed due to cpu limit' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
 
-CMD='[ -e /etc/mpssh-ok ] && { exit 0; } ; sleep 1; exit 2'
+CMD='[ -e mpssh-ok.flag ] && { exit 0; } ; sleep 1; exit 2'
 utest 'exit value 2' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
 utest 'exit value 2 verbose' "--zeroexit -u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
 
-CMD='[ -e /etc/mpssh-ok ] && { echo skipping ; exit 0; } ; echo "some err string" 1>&2; exit 111'
+CMD='[ -e mpssh-ok.flag ] && { echo skipping ; exit 0; } ; echo "some err string" 1>&2; exit 111'
 utest 'exit 111 stderr no-stdout' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
 utest 'exit 111 stderr no-stdout opt-ignexit' "--ignexit -u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
 
-CMD='[ -e /etc/mpssh-ok ] && { echo skipping2 ; exit 0; } ; echo -e "some err\nerr-string v2" 1>&2; echo -e "sout-some\ngood-sout-text"; exit 0'
+CMD='[ -e mpssh-ok.flag ] && { echo skipping2 ; exit 0; } ; echo -e "some err\nerr-string v2" 1>&2; echo -e "sout-some\ngood-sout-text"; exit 0'
 utest 'exit 0 stderr stdout' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
 utest 'exit 0 stdout-only singlehost nosort' "--noheader -u $LUSER -f ./singlehost.txt" "$CMD" 'fgrep -- "->"'
 utest 'exit 0 stderr-only singlehost nosort' "--noheader -u $LUSER -f ./singlehost.txt" "$CMD" 'fgrep -- "=>"'
@@ -58,7 +64,7 @@ utest 'exit 0 all empty nosort' "-u $LUSER -f ./testhosts.txt" "$CMD" 'cat'
 
 CMD='echo test'
 START="$(date +%s)"
-utest 'ssh connection failures' "-u root -f ./failhosts.txt" "$CMD" \
+utest 'ssh connection failures' "-u nobody -f ./failhosts.txt" "$CMD" \
 	'sort | perl -pi -e "s/ \d+\.\d+\.\d+\.\d+ / xxx /g"' 'o ConnectTimeout=3'
 END="$(date +%s)"
 TDIFF="$(( $END - $START ))"
