@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/usr/bin/python3 -u
 # NOTE: (-u) Force unbuffered STD(IN/OUT/ERR) streams
 
 #
@@ -79,7 +79,7 @@ def debug(level, sysname, message, pid=None):
 	dts = "%04d-%02d-%02d %02d:%02d:%02d.%03d" % (
 		now.year, now.month, now.day, now.hour, now.minute, now.second, now.microsecond/float(1000)
 	)
-	print "%s [%s %5d] %s" % (dts, sysname, pid, message)
+	print("%s [%s %5d] %s" % (dts, sysname, pid, message))
 	sys.stdout.flush() # or else messages get messed up when printing by multiple threads simultaneously
 
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python/377028#377028
@@ -132,7 +132,7 @@ def print_host_output(max_host_len, host, separator, text):
 	with print_lock:
 		for line in text.splitlines():
 			for short_line in split_len(line, settings.maxlen):
-				print "%-*s %s %s" % (max_host_len, host, separator, short_line)
+				print("%-*s %s %s" % (max_host_len, host, separator, short_line))
 
 def sleep_sigsafe(t): # a sleep() safe to signal interruption; if we got interrupted and slept less, we'll sleep again
 	want_t = time.time() + float(t)
@@ -282,20 +282,20 @@ if __name__ == '__main__':
 	#		os.mkdir(settings.outdir)
 
 	if not settings.noheader:
-		print 'MPSSH.py - Mass parallel SSH in Python (Version %s)' % prog_version
-		print '(c) 2013 Ivan Zahariev <famzah>'
-		print ''
-		print '  [*] read (%d) hosts from the list' % host_count # Queue.qsize() returns the approximate size
-		print '  [*] executing "%s" as user "%s"' % (settings.command, settings.user)
+		print('MPSSH.py - Mass parallel SSH in Python (Version %s)' % prog_version)
+		print('(c) 2013 Ivan Zahariev <famzah>')
+		print()
+		print('  [*] read (%d) hosts from the list' % host_count) # Queue.qsize() returns the approximate size
+		print('  [*] executing "%s" as user "%s"' % (settings.command, settings.user))
 	if not settings.noheader and settings.verbose:
-		print '  [*] SSH binary : %s' % (settings.sshbin)
-		print '  [*] SSH options: %s' % (settings.sshopt)
+		print('  [*] SSH binary : %s' % (settings.sshbin))
+		print('  [*] SSH options: %s' % (settings.sshopt))
 	if not settings.noheader:
-		print '  [*] spawning %d parallel SSH sessions' % settings.procs
+		print('  [*] spawning %d parallel SSH sessions' % settings.procs)
 	#if not settings.noheader and settings.outdir is not None:
-	#	print '  [*] using output directory : %s' % settings.outdir
+	#	print('  [*] using output directory : %s' % settings.outdir)
 	if not settings.noheader:
-		print ''
+		print()
 
 	# http://stackoverflow.com/questions/1233222/python-multiprocessing-easy-way-to-implement-a-simple-counter
 	counter_lock = Lock()
@@ -333,9 +333,9 @@ if __name__ == '__main__':
 		sleep_sigsafe(0.2)
 
 	if not settings.noheader:
-		print ''
-		print '  Done. %d hosts processed (ok/non-ok/ssh-failed = %d/%d/%d).' % (
-			processed_hosts.value, zero_ec_hosts.value, nonzero_ec_hosts.value, failed_ssh_hosts.value)
+		print()
+		print('  Done. %d hosts processed (ok/non-ok/ssh-failed = %d/%d/%d).' % (
+			processed_hosts.value, zero_ec_hosts.value, nonzero_ec_hosts.value, failed_ssh_hosts.value))
 
 	# some paranoid sanity checks follow
 	if processed_hosts.value != host_count:
