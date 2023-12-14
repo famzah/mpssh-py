@@ -22,7 +22,7 @@ function utest() {
 		MPSSH_SSHOPT="$5" # or else we can't properly pass it
 	fi
 
-	local TMPF="$(tempfile)"
+	local TMPF="$(mktemp)"
 
 	echo "Test: $ID"
 	if [ "$MPSSH_SSHOPT" != '' ]; then
@@ -70,7 +70,7 @@ utest 'exit 0 all empty nosort' "-u $LUSER -f ./testhosts.txt" "$CMD" 'cat'
 CMD='echo test'
 START="$(date +%s)"
 utest 'ssh connection failures' "-u nobody -f ./failhosts.txt" "$CMD" \
-	'sort | perl -pi -e "s/ \d+\.\d+\.\d+\.\d+ / xxx /g"' 'o ConnectTimeout=3'
+	'sort | perl -p -e "s/ \d+\.\d+\.\d+\.\d+ / xxx /g"' 'o ConnectTimeout=3'
 END="$(date +%s)"
 TDIFF="$(( $END - $START ))"
 if [ $TDIFF -gt 5 ]; then
@@ -78,7 +78,7 @@ if [ $TDIFF -gt 5 ]; then
 fi
 
 CMD='/bin/true'
-utest 'bad login user' "-u nobody -f ./testhosts.txt" "$CMD" 'sort | perl -pi -e "s/(Permission denied) .+/\$1 xxx/g"'
+utest 'bad login user' "-u nobody -f ./testhosts.txt" "$CMD" 'sort | perl -p -e "s/(Permission denied) .+/\$1 xxx/g"'
 
 CMD='perl -e "print \"x\"x200"'
 utest 'long text default' "-u $LUSER -f ./testhosts.txt" "$CMD" 'sort'
