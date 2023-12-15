@@ -101,10 +101,17 @@ def which(program, default_path = None):
 	return default_path
 
 # http://stackoverflow.com/questions/375427/non-blocking-read-on-a-subprocess-pipe-in-python
-def read_nb(pipe): # XXX: Works only on UNIX (http://docs.python.org/2/library/select.html)
+def read_nb(poller): # XXX: Works only on UNIX (http://docs.python.org/2/library/select.html)
 	retVal = b''
-	while (select.select([pipe], [], [], 0.2)[0] != []):
-		ch = pipe.read(1)
+	while True:
+		ready_fds = poller.poll(200)
+		if len(ready_fds) == 0:
+			break # no data
+		if len(ready_fds) != 1:
+			raise Exception(f'Sanity check failed: Valid FD list is != 1')
+
+		pipe = ready_fds[0][0]
+		ch = os.read(pipe, 1024)
 		if ch == b'':
 			break # we got EOF
 		retVal += ch
@@ -192,16 +199,21 @@ def worker(input, max_host_len, counter_lock, processed_hosts, zero_ec_hosts, no
 			continue
 		debug(2, 'worker', 'Forked PID %d' % p.pid)
 
+		poller_stdout = select.poll()
+		poller_stdout.register(p.stdout, select.POLLIN)
+		poller_stderr = select.poll()
+		poller_stderr.register(p.stderr, select.POLLIN)
+
 		while True:
 			p.poll() # check if child exited and set "returncode"
 			for t in ['OUT', 'ERR']:
 				if t == 'OUT':
-					pipe = p.stdout
+					poller = poller_stdout
 				elif t == 'ERR':
-					pipe = p.stderr
+					poller = poller_stderr
 				else:
 					raise Exception('Bad type: %s' % t)
-				s = read_nb(pipe)
+				s = read_nb(poller)
 				if not len(s):
 					continue
 				print_host_output(max_host_len, host, get_separator(t), s)
