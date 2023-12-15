@@ -17,7 +17,7 @@ import pwd
 import signal
 import argparse
 
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, DEVNULL
 from multiprocessing import Process, Queue, Lock
 import multiprocessing.sharedctypes
 
@@ -177,7 +177,7 @@ def worker(input, max_host_len, counter_lock, processed_hosts, zero_ec_hosts, no
 			p = Popen(
 				cmd,
 				bufsize=0, executable=None,
-				stdin=None, stdout=PIPE, stderr=PIPE,
+				stdin=DEVNULL, stdout=PIPE, stderr=PIPE,
 				preexec_fn=None, close_fds=False,
 				shell=False,
 				cwd=None, env=None,
