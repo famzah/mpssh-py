@@ -6,7 +6,7 @@
 # Please review the license and other info there.
 #
 
-prog_version = '1.0'
+prog_version = '1.1'
 
 import os
 import sys
