@@ -277,10 +277,14 @@ if __name__ == '__main__':
 	host_queue = Queue()
 	max_host_len = 0
 	host_count = 0
+	parsed_hosts = []
 	for line in open(settings.file):
 		host = line.strip()
 		if not len(host) or host[0] == '#':
 			continue # skip empty lines and comments
+		parsed_hosts.append(host)
+	
+	for host in parsed_hosts:
 		if len(host) > max_host_len:
 			max_host_len = len(host)
 		host_queue.put(host)
