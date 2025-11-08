@@ -33,6 +33,8 @@ function utest() {
 
 	# mask the username as "xxx"
 	perl -pi -e 's/^(  \[\*\] executing ".+" as user ")[^"]+("\s*)$/$1xxx$2/' "$TMPF"
+	# mask the version
+	perl -pi -e 's/^(MPSSH.py - Mass parallel SSH in Python \(Version )\d\.\d(\).*)$/$1x.y$2/' "$TMPF"
 
 	diff -u "$TMPF" "r/$ID"
 

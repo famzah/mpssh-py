@@ -4,7 +4,7 @@
 (c) 2013 Ivan Zahariev <famzah>
   Done. 9 hosts processed (ok/non-ok/ssh-failed = 3/0/6).
   [*] executing "[ -e mpssh-ok.flag ] && { echo test skipped; exit 0; } ; ulimit -t 1 && while [ 1 ]; do let COUNTER=COUNTER+1; done;" as user "xxx"
-MPSSH.py - Mass parallel SSH in Python (Version 1.0)
+MPSSH.py - Mass parallel SSH in Python (Version x.y)
   [*] read (9) hosts from the list
   [*] spawning 9 parallel SSH sessions
 test1.mpssh  -> test skipped
