@@ -16,6 +16,7 @@ import select
 import pwd
 import signal
 import argparse
+import re
 
 from subprocess import Popen, PIPE, DEVNULL
 from multiprocessing import Process, Queue, Lock
@@ -43,6 +44,10 @@ def usage_and_parse_argv():
 	parser.add_argument('-e', '--zeroexit', help='print also zero remote command exit codes',
 		action='store_true', required=False)
 	parser.add_argument('-E', '--ignexit', help='ignore non-zero remote command exit codes',
+		action='store_true', required=False)
+	parser.add_argument('-b', '--badchars-ok', help='print non-printable chars',
+		action='store_true', required=False)
+	parser.add_argument('-B', '--silent-badchars', help='do not warn about skipped non-printable chars',
 		action='store_true', required=False)
 	parser.add_argument('-p', '--procs', help='number of parallel SSH processes',
 		default=100, required=False, type=int, metavar='NPROC')
@@ -134,10 +139,29 @@ def split_len(seq, length):
 		return [''] # or else we skip empty lines
 	return [seq[i:i+length] for i in range(0, len(seq), length)]
 
+def sanitize_terminal_output(s):
+    orig_len = len(s)
+    if not settings.badchars_ok:
+	    s = re.sub(br'[\x00-\x08\x0A-\x0D\x0E-\x1F\x7F]', b'', s)
+    new_len = len(s)
+
+    removed_chars_cnt = orig_len - new_len
+    if removed_chars_cnt < 0:
+        raise Exception(f'Sanity check failed: removed_chars_cnt is negative ({removed_chars_cnt})')
+
+    return s, removed_chars_cnt
+
 def print_host_output(max_host_len, host, separator, text):
+	bad_chars_cnt = 0
+
 	with print_lock:
 		for line in text.splitlines():
 			for short_line in split_len(line, settings.maxlen):
+				if isinstance(short_line, bytes): # untrusted text coming from the remote hosts
+				    short_line, removed_chars_cnt = sanitize_terminal_output(short_line)
+				    bad_chars_cnt += removed_chars_cnt
+				    del removed_chars_cnt
+
 				print("%-*s %s " % (max_host_len, host, separator), end='')
 
 				if isinstance(short_line, bytes):
@@ -146,6 +170,8 @@ def print_host_output(max_host_len, host, separator, text):
 				    sys.stdout.write(short_line)
 
 				sys.stdout.write('\n')
+
+	return bad_chars_cnt
 
 def sleep_sigsafe(t): # a sleep() safe to signal interruption; if we got interrupted and slept less, we'll sleep again
 	want_t = time.time() + float(t)
@@ -216,7 +242,13 @@ def worker(input, max_host_len, counter_lock, processed_hosts, zero_ec_hosts, no
 				s = read_nb(poller)
 				if not len(s):
 					continue
-				print_host_output(max_host_len, host, get_separator(t), s)
+				bad_chars_cnt = print_host_output(max_host_len, host, get_separator(t), s)
+				if bad_chars_cnt:
+					if not settings.silent_badchars:
+						print_host_output(max_host_len, host, get_separator('ECE'),
+							'%s non-printable characters were ignored' % (bad_chars_cnt)
+						)
+
 			if p.returncode is None: # child is still working
 				# in theory, we should have slept enough in read_nb()'s select()
 				# but in practice select() immediately returns if we have EOF
