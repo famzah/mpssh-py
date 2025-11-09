@@ -70,7 +70,8 @@ def resolve_hostname(hostname: str) -> List[str]:
     try:
         addrinfo = socket.getaddrinfo(hostname, None)
     except socket.gaierror as exc:
-        raise RuntimeError(f"Failed to resolve hostname '{hostname}': {exc}") from exc
+        print(f"Failed to resolve hostname '{hostname}': {exc}", file=sys.stderr)
+        addrinfo = []
 
     resolved: List[str] = []
     for info in addrinfo:
