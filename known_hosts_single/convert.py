@@ -136,7 +136,8 @@ def process_line(
     for entry in unique_entries(stripped, resolved_ips):
         stdout = run_ssh_keygen(entry, known_hosts_file)
         output_path = output_dir / sanitize_entry_name(entry)
-        output_path.write_text(stdout, encoding="utf-8")
+        if len(stdout):
+            output_path.write_text(stdout, encoding="utf-8")
 
 
 def main() -> int:
