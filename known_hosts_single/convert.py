@@ -16,7 +16,12 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     default_known_hosts = Path("~/.ssh/known_hosts").expanduser()
 
     parser = argparse.ArgumentParser(
-        description="Resolve hostnames/IPs and dump ssh-keygen outputs per entry."
+        description="Resolve hostnames/IPs and dump ssh-keygen outputs per entry.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.epilog = (
+        "Example:\n"
+        f"  {parser.prog} --known-hosts-file ~/.ssh/known_hosts.monolith --input-file ~/servers.list"
     )
     parser.add_argument(
         "--dot-ssh-output-dir",
