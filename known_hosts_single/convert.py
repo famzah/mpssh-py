@@ -8,7 +8,7 @@ import socket
 import subprocess
 import sys
 from pathlib import Path
-from typing import Iterable, Iterator, List, Sequence
+from typing import Iterator, List, Sequence
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -86,20 +86,10 @@ def resolve_hostname(hostname: str) -> List[str]:
     return resolved
 
 
-def unique_entries(original: str, resolved_ips: Iterable[str]) -> List[str]:
-    ordered: List[str] = []
-    seen: set[str] = set()
-    for item in [original, *resolved_ips]:
-        if item not in seen:
-            seen.add(item)
-            ordered.append(item)
-    return ordered
-
-
 def sanitize_entry_name(entry: str) -> str:
     if entry in {"", ".", ".."}:
         raise ValueError(f"Unsafe entry name '{entry}'")
-    if not re.fullmatch(r"[0-9A-Za-z._:%-]+", entry):
+    if not re.fullmatch(r"[0-9A-Za-z._:%-\[\]]+", entry):
         raise ValueError(f"Unsafe entry name '{entry}'")
     return entry
 
@@ -134,13 +124,37 @@ def process_line(
     if show_progress:
         print(stripped, flush=True)
 
-    resolved_ips: List[str] = []
-    if not is_ip_address(stripped):
-        resolved_ips = resolve_hostname(stripped)
+    lookup_hostname = stripped
+    storage_name = stripped
+    port: str | None = None
 
-    for entry in unique_entries(stripped, resolved_ips):
-        stdout = run_ssh_keygen(entry, known_hosts_file)
-        output_path = output_dir / sanitize_entry_name(entry)
+    # Known_hosts entries with custom ports look like [host]:port; resolve/store by host.
+    bracket_match = re.fullmatch(r"\[(?P<host>[^]]+)\]:(?P<port>\d+)", stripped)
+    if bracket_match:
+        lookup_hostname = bracket_match.group("host")
+        storage_name = lookup_hostname
+        port = bracket_match.group("port")
+
+    resolved_ips: List[str] = []
+    if not is_ip_address(lookup_hostname):
+        resolved_ips = resolve_hostname(lookup_hostname)
+
+    entries_to_process: List[tuple[str, str]] = [(stripped, storage_name)]
+    seen_ips: set[str] = set()
+    for resolved_ip in resolved_ips:
+        if resolved_ip in seen_ips:
+            continue
+        seen_ips.add(resolved_ip)
+        lookup_entry = resolved_ip
+        storage_entry = resolved_ip
+        if port is not None:
+            lookup_entry = f"[{resolved_ip}]:{port}"
+            storage_entry = resolved_ip
+        entries_to_process.append((lookup_entry, storage_entry))
+
+    for lookup_entry, storage_entry in entries_to_process:
+        stdout = run_ssh_keygen(lookup_entry, known_hosts_file)
+        output_path = output_dir / sanitize_entry_name(storage_entry)
         if len(stdout):
             output_path.write_text(stdout, encoding="utf-8")
 
