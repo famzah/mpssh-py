@@ -22,6 +22,11 @@ from subprocess import Popen, PIPE, DEVNULL
 from multiprocessing import Process, Queue, Lock
 import multiprocessing.sharedctypes
 
+# Python 3.14 changed the default start method on Linux from 'fork' to 'forkserver'.
+# The workers rely on inheriting the globals below, which only 'fork' does.
+if __name__ == '__main__' and sys.platform == 'linux':
+	multiprocessing.set_start_method('fork')
+
 settings = None
 print_lock = Lock()
 
